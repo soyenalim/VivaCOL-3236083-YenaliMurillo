@@ -9,7 +9,7 @@
 🇨🇴 VivaCol es un aplicativo web moderno diseñado para centralizar y promover la riqueza turística de Colombia. Este proyecto hace parte del programa de formación de Análisis y Desarrollo de Software del SENA, integrando datos de la API oficial de Colombia con una gestión personalizada de usuarios y favoritos.
 
 ![Ubicación](https://img.shields.io/badge/📍_Origen-Colombia-FCD116?style=for-the-badge)
-![Institución](https://img.shields.io/badge/🏢_Centro_Nacional_Minero-Programación_de_Software-003893?style=for-the-badge)
+![Institución](https://img.shields.io/badge/🏢_Centro_Minero-Programación_de_Software-003893?style=for-the-badge)
 ![Categoría](https://img.shields.io/badge/📂_Categoría-Turismo_Digital-CE1126?style=for-the-badge)
 
 📖 Tabla de Contenidos
