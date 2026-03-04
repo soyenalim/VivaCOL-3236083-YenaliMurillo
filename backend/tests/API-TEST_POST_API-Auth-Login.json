@@ -1,0 +1,1 @@
+{"success":true,"message":"Login exitoso.","data":{"user":{"id":3,"full_name":"Turista Prueba API","email":"turista2@test.com","role":"turista"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoidHVyaXN0YTJAdGVzdC5jb20iLCJyb2xlIjoidHVyaXN0YSIsImlhdCI6MTc3MjU3NjQzMCwiZXhwIjoxNzcyNjYyODMwfQ.KpJn2wx6PaFT2cpaI5cWAUasXYwpXUkxLibPVIi_Hvs"}}

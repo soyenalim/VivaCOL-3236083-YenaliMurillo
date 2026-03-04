@@ -1,0 +1,1 @@
+{"success":true,"message":"Usuario actualizado.","data":{"user":{"id":3,"full_name":"Turista Prueba API","email":"turista2@test.com","username":"turista02","role":"turista","status":true}}}

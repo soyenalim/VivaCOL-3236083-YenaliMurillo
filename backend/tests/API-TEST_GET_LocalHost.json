@@ -1,0 +1,1 @@
+{"message":"VivaCOL API funcionando correctamente","version":"1.0.0","endpoints":{"auth":"/api/auth","users":"/api/users","places":"/api/places"}}

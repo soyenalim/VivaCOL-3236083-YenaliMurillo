@@ -1,0 +1,36 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+:root {
+  /* ! AMARILLOS */
+  --viva-ac: #F5CF4A; /* * Amarillo Claro */
+  --viva-ao: #F5B740; /* * Amarillo Oscuro */
+ 
+  /* ! AZULES */
+  --viva-azc: #313467; /* * Azul Claro */
+  --viva-azo: #272953; /* * Azul Oscuro */
+  
+  /* ! ROJOS */
+  --viva-rc: #D8413A; /* * Rojo Claro */
+  --viva-ro: #BD2E26; /* * Rojo Oscuro */
+
+  /* ! NEUTROS */
+  --viva-white: #EDEAE6;
+  --viva-black: #141414;
+
+  /* ! DEFAULT BACKGROUND COLORS */
+  background: var(--viva-white);
+  color: var(--viva-black);
+}
+
+body {
+  /* ! Poppins font for BODY */
+  font-family: var(--font-viva-cuerpo), sans-serif;
+}
+
+h1, h2, h3, .font-viva-logo {
+  /* ! Montserrat font for TITLES */
+  font-family: var(--font-viva-titulo), sans-serif;
+}

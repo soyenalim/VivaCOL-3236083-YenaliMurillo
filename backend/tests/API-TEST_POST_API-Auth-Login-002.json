@@ -1,0 +1,1 @@
+{"success":true,"message":"Login exitoso.","data":{"user":{"id":4,"full_name":"Administrador Sistema","email":"admin2@vivacol.com","role":"admin"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImVtYWlsIjoiYWRtaW4yQHZpdmFjb2wuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzcyNTgyMzI1LCJleHAiOjE3NzI2Njg3MjV9.jYlzpqOT3IH1Op_p5wqlzvfQ2VuUkaUEKgWsOEvfavU"}}
