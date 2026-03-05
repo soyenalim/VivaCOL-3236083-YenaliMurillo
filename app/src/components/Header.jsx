@@ -1,9 +1,12 @@
 "use client";
+
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { ChevronDown, Globe } from "lucide-react";
 
-export default function Header({ isLoggedIn = false }) {
+export default function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -13,6 +16,19 @@ export default function Header({ isLoggedIn = false }) {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    
+    if (token) {
+      setIsLoggedIn(true);
+      setUserRole(user.role);
+    } else {
+      setIsLoggedIn(false);
+      setUserRole(null);
+    }
   }, []);
 
   // Reusable nav link component with flag hover effect
@@ -112,13 +128,33 @@ export default function Header({ isLoggedIn = false }) {
               </Link>
             </>
           ) : (
-            <Link 
-              href="/perfil"
-              className="bg-[#313467] text-white px-6 py-2 rounded-full font-bold text-[10px] hover:scale-105 hover:bg-[#272953] transition-all duration-300 shadow-lg flex items-center gap-2"
-            >
-              <span className="w-2 h-2 bg-[#F5CF4A] rounded-full animate-pulse" />
-              Mi Cuenta
-            </Link>
+            <>
+              {/* LINK A DASHBOARD SEGÚN ROL */}
+              <Link
+                href={userRole === "admin" ? "/admin" : "/user"}
+                className={`px-6 py-2 rounded-full font-bold text-[10px] hover:scale-105 transition-all duration-300 shadow-lg flex items-center gap-2 ${
+                  userRole === "admin" 
+                    ? "bg-[#F5CF4A] text-[#272953] hover:bg-[#F5B740]" 
+                    : "bg-[#313467] text-white hover:bg-[#272953]"
+                }`}
+              >
+                <span className={`w-2 h-2 rounded-full animate-pulse ${
+                  userRole === "admin" ? "bg-[#272953]" : "bg-[#F5CF4A]"
+                }`} />
+                {userRole === "admin" ? "Admin Panel" : "Mi Perfil"}
+              </Link>
+              
+              <button
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("user");
+                  window.location.href = "/";
+                }}
+                className="bg-[#D8413A] text-white px-6 py-2 rounded-full font-bold text-[10px] hover:scale-105 hover:bg-[#b91c1c] transition-all duration-300 shadow-lg"
+              >
+                Cerrar sesión
+              </button>
+            </>
           )}
         </div>
       </div>

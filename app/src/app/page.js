@@ -1,6 +1,8 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HomeHeaderSection from '../components/Home-HeaderSection';
+import FeaturedPlaces from '../components/FeaturedPlaces';
+import FAQSection from '../components/FAQSection';
 
 export default function Home() {
   return (
@@ -17,24 +19,15 @@ export default function Home() {
         <Header />
         
         <main>
-          {/* HERO SECTION - Yellow from left and right edges */}
+          {/* HERO SECTION  */}
           <HomeHeaderSection />
+
+          {/* FEATURED  */}
+          <FeaturedPlaces />
           
-          {/* COLOMBIA STATES SHOWCASE - Blue from left and right edges */}
-          <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0" style={{
-              background: 'radial-gradient(circle at 0% 50%, rgba(49, 52, 103, 0.85) 0%, transparent 15%), radial-gradient(circle at 100% 50%, rgba(49, 52, 103, 0.85) 0%, transparent 15%)'
-            }}></div>
-            <h2 className="relative text-3xl font-bold text-[#272953] z-10 drop-shadow-lg">Colombia States Showcase Coming Soon</h2>
-          </section>
-          
-          {/* FAQ SECTION - Red from left and right edges */}
-          <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0" style={{
-              background: 'radial-gradient(circle at 0% 50%, rgba(216, 65, 58, 0.85) 0%, transparent 15%), radial-gradient(circle at 100% 50%, rgba(216, 65, 58, 0.85) 0%, transparent 15%)'
-            }}></div>
-            <h2 className="relative text-3xl font-bold text-[#272953] z-10 drop-shadow-lg">FAQ Section Coming Soon</h2>
-          </section>
+          {/* FAQ  */}
+          <FAQSection />
+
         </main>
         
         <Footer />

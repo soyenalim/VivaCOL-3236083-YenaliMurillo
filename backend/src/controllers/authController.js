@@ -6,46 +6,61 @@ const { success, error } = require('../utils/response');
 // REGISTRO DE USUARIOS
 const register = async (req, res) => {
     try {
-        const { full_name, email, username, password, role = 'turista' } = req.body;  // ← AGREGADO username
+        let { full_name, email, username, password, role = 'turista' } = req.body;
 
-        // Validar que vengan todos los datos requeridos
-        if (!full_name || !email || !password) {
-            return error(res, 'Nombre, email y contraseña son obligatorios.', 400);
+        // Normalizar datos
+        full_name = full_name?.trim();
+        email = email?.trim().toLowerCase();
+        username = username?.trim().toLowerCase();
+        password = password?.trim();
+
+        // Validaciones básicas
+        if (!full_name || !email || !username || !password) {
+            return error(res, 'Todos los campos son obligatorios.', 400);
         }
 
-        // 1. Validar que no exista el email
-        const { data: existingUser, error: searchError } = await supabase
+        if (password.length < 6) {
+            return error(res, 'La contraseña debe tener mínimo 6 caracteres.', 400);
+        }
+
+        // 1️ Validar email único
+        const { data: existingUsers, error: emailError } = await supabase
             .from('users')
-            .select('*')
-            .eq('email', email)
-            .single();
+            .select('id')
+            .eq('email', email);
 
-        // Si encontró usuario, error
-        if (existingUser) {
-            return error(res, 'El email ya está registrado.', 400);
+        if (emailError) {
+            console.error('Error verificando email:', emailError);
+            return error(res, 'Error verificando email.', 500);
         }
 
-        // 2. Validar que no exista el username (si se proporciona)
-        if (username) {
-            const { data: existingUsername } = await supabase
-                .from('users')
-                .select('*')
-                .eq('username', username)
-                .single();
-
-            if (existingUsername) {
-                return error(res, 'El username ya está en uso.', 400);
-            }
+        if (existingUsers.length > 0) {
+            return error(res, 'El email ya está registrado.', 409);
         }
 
-        // 3. Encriptar contraseña
+        // 2️ Validar username único
+        const { data: existingUsernames, error: usernameError } = await supabase
+            .from('users')
+            .select('id')
+            .eq('username', username);
+
+        if (usernameError) {
+            console.error('Error verificando username:', usernameError);
+            return error(res, 'Error verificando username.', 500);
+        }
+
+        if (existingUsernames.length > 0) {
+            return error(res, 'El username ya está en uso.', 409);
+        }
+
+        // 3️ Encriptar contraseña
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // 4. Insertar usuario en Supabase
+        // 4️ Insertar usuario
         const { data: newUser, error: dbError } = await supabase
             .from('users')
             .insert([
-                { full_name, email, username, password: hashedPassword, role }  // ← AGREGADO username
+                { full_name, email, username, password: hashedPassword, role }
             ])
             .select()
             .single();
@@ -55,16 +70,12 @@ const register = async (req, res) => {
             return error(res, 'Error al crear usuario en base de datos.', 500);
         }
 
-        if (!newUser) {
-            return error(res, 'No se pudo crear el usuario.', 500);
-        }
-
-        // 5. Generar JWT
+        // 5️ Generar JWT
         const token = jwt.sign(
-            { 
-                userId: newUser.id, 
-                email: newUser.email, 
-                role: newUser.role 
+            {
+                userId: newUser.id,
+                email: newUser.email,
+                role: newUser.role
             },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
@@ -75,7 +86,7 @@ const register = async (req, res) => {
                 id: newUser.id,
                 full_name: newUser.full_name,
                 email: newUser.email,
-                username: newUser.username,  // ← AGREGADO username
+                username: newUser.username,
                 role: newUser.role
             },
             token
@@ -90,21 +101,36 @@ const register = async (req, res) => {
 // LOGIN DE USUARIOS
 const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+
+        // Normalizar datos
+        email = email?.trim().toLowerCase();
+        password = password?.trim();
 
         if (!email || !password) {
             return error(res, 'Email y contraseña son obligatorios.', 400);
         }
 
-        // 1. Buscar usuario por email
-        const { data: user, error: dbError } = await supabase
+        // 1️ Buscar usuario por email
+        const { data: users, error: dbError } = await supabase
             .from('users')
             .select('*')
-            .eq('email', email)
-            .single();
+            .eq('email', email);
 
-        if (dbError || !user) {
+        if (dbError) {
+            console.error('Error buscando usuario:', dbError);
+            return error(res, 'Error interno al buscar usuario.', 500);
+        }
+
+        if (users.length === 0) {
             return error(res, 'Usuario o contraseña incorrectos.', 401);
+        }
+
+        const user = users[0];
+
+        // Verificar que el usuario esté activo
+        if (user.status === false) {
+            return error(res, 'Usuario desactivado. Contacte al administrador.', 403);
         }
 
         // 2. Verificar contraseña

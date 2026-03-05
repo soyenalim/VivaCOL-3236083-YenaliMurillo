@@ -3,10 +3,26 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Facebook, Github, Linkedin } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [bgImage, setBgImage] = useState("");
+  const router = useRouter();
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const [registerData, setRegisterData] = useState({
+    full_name: "",
+    email: "",
+    username: "",
+    password: ""
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const wallpapers = [
     "/images/wallpapers/VivaCOL-003.jpg",
@@ -20,6 +36,67 @@ export default function Login() {
     const randomImg = wallpapers[Math.floor(Math.random() * wallpapers.length)];
     setBgImage(randomImg);
   }, []);
+
+  const handleLogin = async () => {
+    try {
+      setErrorMessage("");
+
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage(data.message || "Error al iniciar sesión");
+        return;
+      }
+
+      // GUARDAR TOKEN
+      localStorage.setItem("token", data.data.token);
+
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      router.push("/"); // redirige al home
+
+    } catch (error) {
+      setErrorMessage("Error de conexión con el servidor");
+    }
+  };
+
+  const handleRegister = async () => {
+    try {
+      setErrorMessage("");
+
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ...registerData,
+          role: "turista"
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage(data.message || "Error en registro");
+        return;
+      }
+
+      alert("Registro exitoso. Ahora inicia sesión.");
+      setIsLogin(true);
+
+    } catch (error) {
+      setErrorMessage("Error de conexión con el servidor");
+    }
+  };
 
   return (
     <div 
@@ -54,25 +131,54 @@ export default function Login() {
             </button>
           </div>
           <span className="text-sm text-[#EDEAE6] mb-6">o registrate con tu correo</span>
+
+          {errorMessage && (
+            <p className="text-red-400 text-sm mb-4">
+              {errorMessage}
+            </p>
+          )}
+
           <input
             type="text"
-            placeholder="Usuario"
-            className="w-full bg-gray-100 border-none px-4 py-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[#313467] placeholder:text-sm"
-            data-testid="input-register-name"
+            placeholder="Nombre completo"
+            value={registerData.full_name}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, full_name: e.target.value })
+            }
+            className="..."
           />
+
           <input
             type="email"
             placeholder="Correo"
-            className="w-full bg-gray-100 border-none px-4 py-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[#313467] placeholder:text-sm"
-            data-testid="input-register-email"
+            value={registerData.email}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, email: e.target.value })
+            }
+            className="..."
           />
+
+          <input
+            type="text"
+            placeholder="Usuario"
+            value={registerData.username}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, username: e.target.value })
+            }
+            className="..."
+          />
+
           <input
             type="password"
             placeholder="Contraseña"
-            className="w-full bg-gray-100 border-none px-4 py-3 rounded-lg mb-8 focus:outline-none focus:ring-2 focus:ring-[#313467] placeholder:text-sm"
-            data-testid="input-register-password"
+            value={registerData.password}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, password: e.target.value })
+            }
+            className="..."
           />
           <button 
+            onClick={handleRegister}
             className="bg-[#313467] text-white px-12 py-3 rounded-full font-bold tracking-wider hover:scale-105 transition-transform shadow-lg text-sm"
             data-testid="button-register-submit"
           >
@@ -103,22 +209,39 @@ export default function Login() {
             </button>
           </div>
           <span className="text-sm text-[#EDEAE6] mb-6">o ingresa con tu correo</span>
+
+          {errorMessage && (
+            <p className="text-red-400 text-sm mb-4">
+              {errorMessage}
+            </p>
+          )}
+
           <input
             type="email"
             placeholder="Correo"
-            className="w-full bg-gray-100 border-none px-4 py-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[#313467] placeholder:text-sm"
-            data-testid="input-login-email"
+            value={loginData.email}
+            onChange={(e) =>
+              setLoginData({ ...loginData, email: e.target.value })
+            }
+            className="..."
           />
+
           <input
             type="password"
             placeholder="Contraseña"
-            className="w-full bg-gray-100 border-none px-4 py-3 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-[#313467] placeholder:text-sm"
-            data-testid="input-login-password"
+            value={loginData.password}
+            onChange={(e) =>
+              setLoginData({ ...loginData, password: e.target.value })
+            }
+            className="..."
           />
-          <a href="#" className="text-sm text-[#EDEAE6] mb-10 hover:text-[#313467] transition-colors" data-testid="link-forgot-password">
+
+          <Link href="/forgot-password" className="text-sm text-[#EDEAE6] mb-10 hover:text-[#F5CF4A] transition-colors" data-testid="link-forgot-password">
             ¿Olvidaste tu Contraseña?
-          </a>
+          </Link>
+          
           <button 
+            onClick={handleLogin}
             className="bg-[#313467] text-white px-12 py-3 rounded-full font-bold tracking-wider hover:scale-105 transition-transform shadow-lg text-sm"
             data-testid="button-login-submit"
           >
