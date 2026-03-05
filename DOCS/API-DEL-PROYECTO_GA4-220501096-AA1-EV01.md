@@ -1,9 +1,12 @@
 # Evidencia API del Proyecto
 **Código:** GA4-220501096-AA1-EV01  
-**Estudiante:** Yenali Karina Murillo Rodriguez    
-**Fecha:** [Agrega fecha]  
+**Estudiante:** Yenali Karina Murillo Rodriguez   
+
 **Repositorio:** [VivaCOL](https://github.com/soyenalim/VivaCOL-3236083-YenaliMurillo)
+
 **Archivos JSON de Pruebas de API:** [Tests.json](https://github.com/soyenalim/VivaCOL-3236083-YenaliMurillo/tree/main/backend/tests)
+
+[API Documentation](https://github.com/soyenalim/VivaCOL-3236083-YenaliMurillo/blob/b47ca6617534248691d0386eab78b82651165af8/backend/API_DOCUMENTATION.md)
 
 ---
 
