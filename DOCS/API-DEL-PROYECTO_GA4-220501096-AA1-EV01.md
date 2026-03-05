@@ -3,6 +3,7 @@
 **Estudiante:** Yenali Karina Murillo Rodriguez    
 **Fecha:** [Agrega fecha]  
 **Repositorio:** [VivaCOL](https://github.com/soyenalim/VivaCOL-3236083-YenaliMurillo)
+**Archivos JSON de Pruebas de API:** [Tests.json](https://github.com/soyenalim/VivaCOL-3236083-YenaliMurillo/tree/main/backend/tests)
 
 ---
 
