@@ -37,17 +37,30 @@ El proyecto busca resolver la fragmentación de la información turística media
 ![Last Commit](https://img.shields.io/github/last-commit/soyenalim/VivaCOL-3236083-YenaliMurillo?color=blue&style=flat-square)
 ![Repo Size](https://img.shields.io/github/repo-size/soyenalim/VivaCOL-3236083-YenaliMurillo?color=green&style=flat-square)
 
-Para garantizar la organización y el control de versiones, el repositorio se divide en las siguientes carpetas:
+El repositorio sigue un patrón de diseño orientado a la separación de responsabilidades:
 
 ```text
 📁 VivaCol
+├── 📁 app             # Estructura de Next.js (Frontend)              
+│   ├── 📁 src          
+│   │   ├── 📁 components      # Componentes reutilizables (Botones, Cards, Nav)
+│   │   └── 📁 app             # Estructura y diseño de la página web
+├── 📁 public          # Recursos estáticos (Imágenes, Logos)
+├── next.config.js      # Configuración de Next.js
+├── 📁 backend
+│   ├── config          # Configuración de base de datos (Supabase)
+│   ├── controllers     # Lógica de negocio (Auth, Users, Colombia API)
+│   ├── middleware      # Filtros de seguridad (Verificación de JWT, Roles)
+│   ├── routes          # Definición de Endpoints de la API
+│   ├── utils           # Funciones de ayuda y estandarización de respuestas
+│   └── server.js       # Punto de entrada de la aplicación
 ├── 📁 design           # Planos visuales y wireframes
 │   ├── 📁 wireframes   # Diseños de baja fidelidad (Bocetos)
 │   └── 📁 inspiration  # Storytelling y recursos visuales
 ├── 📁 docs             # Documentación técnica y DER
 ├── 📁 resources        # Identidad corporativa y banners
 └── 📄 README.md        # Guía principal del proyecto
-````
+```
 
 # 🎨 Diseño y Prototipado
 El ecosistema visual de VivaCol prioriza la consistencia y la accesibilidad, asegurando una experiencia de usuario fluida en cada interacción.
@@ -86,7 +99,6 @@ El ecosistema visual de VivaCol prioriza la consistencia y la accesibilidad, ase
 | Lenguajes | Propósito y Función |
 | :--- | :--- |
 | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) | **Lógica:** Implementación de funciones dinámicas y validaciones. |
-| ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) | **Estructura:** Definición semántica del contenido web. |
 | ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) | **Maquetación:** Personalización visual avanzada. |
 
 > 🛠️ Herramientas | Software y utilitarios que garantizan un entorno de desarrollo estable y un control de versiones seguro.
